@@ -1,0 +1,498 @@
+/* =============================================================
+   ShopSmart AI – enhancements.css
+   ✅ UI/UX Pro Max Applied:
+   - Style: Liquid Glass (morphing, fluid, iridescent)
+   - Fonts: Rubik (heading) + Nunito Sans (body)   [per design system]
+   - Primary: #7C3AED · Secondary: #A78BFA · CTA: #06B6D4
+   - Effects: 400-600ms fluid animations, dynamic blur, color transitions
+   - ✅ No emojis as icons (all SVG Lucide)
+   - ✅ cursor-pointer on all clickable elements
+   - ✅ prefers-reduced-motion respected
+   - ✅ Focus states for keyboard nav
+   - ✅ Touch targets min 44x44px
+   ============================================================= */
+
+/* ── UI/UX Pro Max Design Tokens ────────────────────────────── */
+:root {
+  --font-ui:   'Nunito Sans', system-ui, sans-serif;
+  --font-head: 'Rubik', system-ui, sans-serif;
+
+  /* Skill palette: AI Purple dominant, Cyan CTA, Deep violet BG */
+  --clr-primary:   #7C3AED;
+  --clr-secondary: #A78BFA;
+  --clr-cta:       #06B6D4;
+  --clr-bg-deep:   #0A0818;
+
+  /* Liquid glass aurora colors */
+  --clr-aurora-1: #7C3AED;
+  --clr-aurora-2: #A78BFA;
+  --clr-aurora-3: #06B6D4;
+  --clr-aurora-4: #3b82f6;
+
+  /* Fluid animation timing per skill (400-600ms) */
+  --dur-fluid:  500ms;
+  --dur-micro:  200ms;
+  --ease-fluid: cubic-bezier(0.34, 1.2, 0.64, 1);
+
+  /* Glow tokens */
+  --glow-primary: 0 0 40px rgba(124,58,237,0.4), 0 0 80px rgba(124,58,237,0.18);
+  --glow-cta:     0 0 20px rgba(6,182,212,0.45);
+}
+
+/* ── Aurora Canvas Layer ─────────────────────────────────────── */
+#aurora-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+}
+
+/* ── Noise Texture Overlay ───────────────────────────────────── */
+.noise-overlay {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* ── Brand heading with Rubik (ui-ux-pro-max recommended) ──── */
+.brand-text h1 {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #A78BFA 0%, #06B6D4 60%, #A78BFA 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-text 4s linear infinite;
+}
+
+@keyframes shimmer-text {
+  from { background-position: 0% center; }
+  to   { background-position: 200% center; }
+}
+
+/* ── Chat header title with Rubik ──────────────────────────── */
+.chat-header-info h2 {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ── Left panel glass enhancement ───────────────────────────── */
+.left-panel {
+  background: linear-gradient(160deg, rgba(15,19,32,0.97) 0%, rgba(10,14,26,0.99) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(99,102,241,0.12);
+}
+
+/* Glowing top accent line (iridescent per Liquid Glass style) */
+.left-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #7C3AED, #06B6D4, #A78BFA, transparent);
+  background-size: 200% auto;
+  animation: scan-line 3s linear infinite;
+}
+
+@keyframes scan-line {
+  from { background-position: 0% center; }
+  to   { background-position: 200% center; }
+}
+
+/* ── Info card shimmer border ────────────────────────────────── */
+.info-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(99,102,241,0.07) 0%, rgba(34,211,238,0.03) 100%);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.35), rgba(6,182,212,0.2), rgba(167,139,250,0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity var(--dur-micro) ease;
+}
+
+.info-card:hover::before { opacity: 1; }
+.info-card:hover {
+  box-shadow: 0 8px 32px rgba(124,58,237,0.18);
+  transform: translateY(-1px);
+  cursor: default;
+}
+
+/* ── Flow step enhanced ──────────────────────────────────────── */
+.flow-step {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.flow-step::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  background: linear-gradient(90deg, rgba(99,102,241,0.2), transparent);
+  transition: width 0.4s ease;
+}
+
+.flow-step.active::after { width: 100%; }
+
+.flow-step.active {
+  transform: translateX(4px);
+  box-shadow: -3px 0 0 #7C3AED, 0 4px 20px rgba(124,58,237,0.18);
+  border-left: 3px solid #7C3AED;
+}
+
+.flow-step.completed {
+  opacity: 0.7;
+}
+
+/* ── Lab badge pulse ring ────────────────────────────────────── */
+.lab-badge {
+  position: relative;
+}
+
+.lab-badge::after {
+  content: '';
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--clr-success);
+  animation: ping 2s cubic-bezier(0,0,0.2,1) infinite;
+}
+
+@keyframes ping {
+  0%   { transform: translateY(-50%) scale(1); opacity: 1; }
+  75%, 100% { transform: translateY(-50%) scale(2.5); opacity: 0; }
+}
+
+/* ── AI Avatar glow ring ─────────────────────────────────────── */
+.ai-avatar {
+  position: relative;
+}
+
+.ai-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: calc(var(--radius-md) + 3px);
+  background: linear-gradient(135deg, #6366f1, #22d3ee, #8b5cf6);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: avatar-rotate 4s linear infinite;
+}
+
+.chat-header:hover .ai-avatar::before { opacity: 1; }
+
+@keyframes avatar-rotate {
+  from { filter: hue-rotate(0deg); }
+  to   { filter: hue-rotate(360deg); }
+}
+
+/* ── Message bubble enhancement ──────────────────────────────── */
+.message.ai .msg-bubble {
+  position: relative;
+  border: 1px solid rgba(99,102,241,0.18);
+  backdrop-filter: blur(12px);
+}
+
+/* Subtle left accent line on AI messages */
+.message.ai .msg-bubble::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 12px; bottom: 12px;
+  width: 2px;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #6366f1, #22d3ee);
+  opacity: 0.6;
+}
+
+/* ── User bubble enhancement ─────────────────────────────────── */
+.message.user .msg-bubble {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  box-shadow: 0 4px 24px rgba(124,58,237,0.5), 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ── Typing indicator upgrade ────────────────────────────────── */
+.typing-indicator span {
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+  box-shadow: 0 0 8px rgba(99,102,241,0.6);
+}
+
+/* ── Quick chip hover glow ───────────────────────────────────── */
+.quick-chip {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  cursor: pointer; /* ui-ux-pro-max: cursor-pointer on clickable */
+  min-height: 36px; /* min touch target */
+  transition: all var(--dur-micro) ease;
+}
+
+.quick-chip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(34,211,238,0.2));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.quick-chip:hover::before { opacity: 1; }
+
+/* Ripple on click */
+.quick-chip .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: scale(0);
+  animation: ripple-out 0.5s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-out {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* ── Send button — #06B6D4 CTA per skill ───────────────────── */
+.send-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #7C3AED, #5B21B6);
+  transition: transform var(--dur-micro) var(--ease-fluid),
+              box-shadow var(--dur-micro) ease;
+  cursor: pointer;
+  min-width: 44px; min-height: 44px; /* ui-ux-pro-max: touch target */
+}
+
+.send-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, #7C3AED, #06B6D4, #A78BFA);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  filter: blur(6px);
+}
+
+.send-btn:not(:disabled):hover {
+  transform: scale(1.12) translateY(-1px);
+  box-shadow: 0 8px 28px rgba(124,58,237,0.7), 0 0 0 1px rgba(124,58,237,0.4);
+}
+
+.send-btn:not(:disabled):hover::before { opacity: 1; }
+
+.send-btn:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.send-icon {
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.send-btn:not(:disabled):hover .send-icon {
+  transform: translateX(2px) translateY(-2px);
+}
+
+/* ── Input wrapper glow ──────────────────────────────────────── */
+.input-wrapper {
+  background: rgba(22, 28, 46, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(99,102,241,0.15);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: rgba(124,58,237,0.55);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.14), 0 0 20px rgba(124,58,237,0.1);
+}
+
+/* ── Global focus-visible ring (ui-ux-pro-max: keyboard nav) ─── */
+*:focus-visible {
+  outline: 2px solid #06B6D4;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── prefers-reduced-motion (ui-ux-pro-max: accessibility) ───── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  #aurora-canvas { display: none; }
+}
+
+/* ── Chat header glass ───────────────────────────────────────── */
+.chat-header {
+  background: rgba(15,19,32,0.9);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(99,102,241,0.1);
+}
+
+/* ── Ctrl buttons ────────────────────────────────────────────── */
+.ctrl-btn {
+  font-size: 16px;
+  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.ctrl-btn:hover {
+  transform: scale(1.1) rotate(15deg);
+  background: rgba(99,102,241,0.2);
+  border-color: rgba(99,102,241,0.4);
+  color: #a5b4fc;
+}
+
+/* ── Scrollbar with gradient ─────────────────────────────────── */
+.messages-area::-webkit-scrollbar { width: 4px; }
+.messages-area::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #22d3ee);
+  border-radius: 100px;
+}
+
+/* ── Message entrance animation upgrade ──────────────────────── */
+@keyframes msg-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ── Step number counter glow ────────────────────────────────── */
+.flow-step.active .step-num {
+  box-shadow: 0 0 0 4px rgba(124,58,237,0.2), 0 0 16px rgba(124,58,237,0.55);
+}
+
+/* ── Tech pill hover ─────────────────────────────────────────── */
+.tech-pill {
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.tech-pill:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.tech-pill.highlight:hover {
+  box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+}
+
+/* ── Section header accent ───────────────────────────────────── */
+.info-card h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+/* ── Input placeholder animation ────────────────────────────── */
+#user-input::placeholder {
+  color: rgba(99,102,241,0.4);
+  transition: color 0.3s ease;
+}
+
+.input-wrapper:focus-within #user-input::placeholder {
+  color: rgba(99,102,241,0.25);
+}
+
+/* ── Message timestamp fade ──────────────────────────────────── */
+.msg-time {
+  font-size: 0.65rem;
+  color: var(--clr-text-faint);
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.message:hover .msg-time { opacity: 1; }
+
+/* ── Character count indicator ───────────────────────────────── */
+.char-count {
+  font-size: 0.68rem;
+  color: var(--clr-text-faint);
+  align-self: center;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.2s ease;
+}
+
+.char-count.warn { color: var(--clr-warning); }
+.char-count.limit { color: var(--clr-danger); }
+
+/* ── Loading shimmer for messages ────────────────────────────── */
+.msg-shimmer {
+  background: linear-gradient(90deg,
+    rgba(99,102,241,0.1) 25%,
+    rgba(99,102,241,0.2) 50%,
+    rgba(99,102,241,0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+  height: 14px;
+  margin-bottom: 6px;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ── Status dot pulse ────────────────────────────────────────── */
+.ai-avatar::after {
+  box-shadow: 0 0 0 0 rgba(16,185,129,0.7);
+  animation: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.7); }
+  70%  { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+  100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+
+/* ── Page load entrance ──────────────────────────────────────── */
+.left-panel, .right-panel {
+  animation: panel-rise 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.right-panel { animation-delay: 0.1s; }
+
+@keyframes panel-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Meta Tags -->
+  <title>ShopSmart AI – AI Shopping Assistant | Flowise + OpenRouter Lab</title>
+  <meta name="description" content="ShopSmart AI is an intelligent shopping assistant powered by Flowise and OpenRouter. Get personalized product recommendations based on your category, budget, preferences, and intended use." />
+  <meta name="keywords" content="AI shopping assistant, Flowise, OpenRouter, product recommendations, chatbot" />
+  <meta name="author" content="AI Assistant Builder Lab" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ShopSmart AI – AI Shopping Assistant" />
+  <meta property="og:description" content="Personalized product recommendations powered by Flowise + OpenRouter." />
+  <meta property="og:type" content="website" />
+
+  <!-- UI/UX Pro Max: Rubik (heading) + Nunito Sans (body) per design system -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons (SVG icon set — no emojis per ui-ux-pro-max checklist) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="enhancements.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>" />
+</head>
+<body>
+
+  <!-- Aurora animated background -->
+  <canvas id="aurora-canvas" aria-hidden="true"></canvas>
+
+  <!-- Noise texture overlay -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <div id="app" role="main">
+
+    <!-- ═══════════════════════════════════════════════════════
+         LEFT PANEL – Project Info + Flow Summary
+         ════════════════════════════════════════════════════ -->
+    <aside class="left-panel" aria-label="Project information panel">
+
+      <!-- Brand -->
+      <div class="brand fade-in">
+        <div class="brand-icon" aria-hidden="true">
+          <!-- Lucide: ShoppingBag SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>ShopSmart AI</h1>
+          <p>AI Shopping Assistant</p>
+        </div>
+      </div>
+
+      <!-- Lab Badge -->
+      <div class="lab-badge" role="status" aria-live="polite">
+        AI Assistant Builder Lab
+      </div>
+
+      <!-- Project Description -->
+      <div class="info-card fade-in">
+        <h2>About This Project</h2>
+        <p>
+          ShopSmart AI is an intelligent shopping assistant that gathers your preferences through a structured conversation,
+          then recommends the <strong>top 3 products</strong> perfectly matched to your needs, budget, and intended use.
+        </p>
+      </div>
+
+      <!-- Tech Stack Info -->
+      <div class="info-card fade-in">
+        <h2>Tech Stack</h2>
+        <p style="font-size:0.8rem; color:var(--clr-text-muted); margin-bottom:10px;">
+          Backend AI is powered by <strong style="color:#a5b4fc">Flowise</strong> as the chatflow orchestrator
+          and <strong style="color:#67e8f9">OpenRouter</strong> as the LLM provider.
+        </p>
+        <div class="tech-pills">
+          <span class="tech-pill highlight">Flowise</span>
+          <span class="tech-pill highlight">OpenRouter</span>
+          <span class="tech-pill">HTML5</span>
+          <span class="tech-pill">CSS3</span>
+          <span class="tech-pill">Vanilla JS</span>
+          <span class="tech-pill">REST API</span>
+        </div>
+      </div>
+
+      <!-- Conversation Flow Steps -->
+      <div class="info-card fade-in">
+        <h2>Conversation Flow</h2>
+        <div class="flow-steps" id="flow-steps" role="list" aria-label="Assistant conversation steps">
+          <div class="flow-step active" id="step-1" role="listitem" style="cursor:pointer">
+            <div class="step-num" aria-label="Step 1">1</div>
+            <span class="step-label">Welcome &amp; Introduction</span>
+          </div>
+          <div class="flow-step" id="step-2" role="listitem" style="cursor:pointer">
+            <div class="step-num" aria-label="Step 2">2</div>
+            <span class="step-label">Product Category</span>
+          </div>
+          <div class="flow-step" id="step-3" role="listitem" style="cursor:pointer">
+            <div class="step-num" aria-label="Step 3">3</div>
+            <span class="step-label">Budget Range</span>
+          </div>
+          <div class="flow-step" id="step-4" role="listitem" style="cursor:pointer">
+            <div class="step-num" aria-label="Step 4">4</div>
+            <span class="step-label">Personal Preferences</span>
+          </div>
+          <div class="flow-step" id="step-5" role="listitem" style="cursor:pointer">
+            <div class="step-num" aria-label="Step 5">5</div>
+            <span class="step-label">Intended Use</span>
+          </div>
+          <div class="flow-step" id="step-6" role="listitem" style="cursor:pointer">
+            <div class="step-num" aria-label="Step 6">6</div>
+            <span class="step-label">Top 3 Recommendations</span>
+          </div>
+          <div class="flow-step" id="step-7" role="listitem" style="cursor:pointer">
+            <div class="step-num" aria-label="Step 7">7</div>
+            <span class="step-label">Alternative Options</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Credit -->
+      <div class="tech-stack">
+        <h3>Submission Info</h3>
+        <div style="font-size:0.75rem; color:var(--clr-text-faint); line-height:1.6;">
+          Lab: AI Assistant Builder<br>
+          Use Case: AI Shopping Assistant<br>
+          Backend: Flowise + OpenRouter<br>
+          Deployment: GitHub Pages / Netlify / Vercel
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════
+         RIGHT PANEL – Chat Interface
+         ════════════════════════════════════════════════════ -->
+    <section class="right-panel" aria-label="Chat interface">
+
+      <!-- Chat Header -->
+      <header class="chat-header">
+        <div class="chat-header-left">
+          <div class="ai-avatar" aria-hidden="true">
+            <!-- Lucide: Bot SVG icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+          </div>
+          <div class="chat-header-info">
+            <h2>ShopSmart Assistant</h2>
+            <p id="chat-status">Online · Powered by Flowise + OpenRouter</p>
+          </div>
+        </div>
+        <div class="header-controls">
+          <button class="ctrl-btn" id="btn-restart" title="Restart conversation" aria-label="Restart conversation">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+          </button>
+          <button class="ctrl-btn" id="btn-export" title="Export chat" aria-label="Export chat transcript">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Messages -->
+      <div class="messages-area" id="messages-area" role="log" aria-live="polite" aria-label="Chat messages">
+        <!-- Messages injected by JavaScript -->
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="input-wrapper">
+          <textarea
+            id="user-input"
+            placeholder="Type your message here..."
+            rows="1"
+            aria-label="Message input"
+            maxlength="1000"
+          ></textarea>
+          <button class="send-btn" id="send-btn" aria-label="Send message" title="Send message">
+            <svg class="send-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <p class="input-hint">
+          Powered by
+          <a href="https://flowiseai.com" target="_blank" rel="noopener noreferrer">Flowise</a>
+          ·
+          <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">OpenRouter</a>
+          · Responses may take a moment
+        </p>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- Anime.js v3 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- Core logic -->
+  <script src="app.js"></script>
+  <!-- UI enhancements -->
+  <script src="enhancements.js"></script>
+</body>
+</html>
